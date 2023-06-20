@@ -11,11 +11,11 @@ export default [
     input: "./src/core/index.ts",
     output: [
       {
-        file: path.resolve(__dirname, "./dist/esm/index.esm.js"),
+        file: path.resolve(__dirname, "./dist/index.esm.js"),
         format: "es",
       },
       {
-        file: path.resolve(__dirname, "./dist/cjs/index.cjs.js"),
+        file: path.resolve(__dirname, "./dist/index.cjs.js"),
         format: "cjs",
       },
       {
