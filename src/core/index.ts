@@ -39,13 +39,13 @@ export default class TrackingDemo {
 
     private initJSError() {
         window.addEventListener("error", (e) => {
-          this._report(ReportType.ERROR, {
+          this.report(ReportType.ERROR, {
             message: e.message,
           });
         });
   
         window.addEventListener("unhandledrejection", (e) => {
-          this._report(ReportType.ERROR, {
+          this.report(ReportType.ERROR, {
             message: e.reason,
           });
         });
@@ -57,7 +57,7 @@ export default class TrackingDemo {
           const target = e.target as HTMLElement;
           const reportKey = target.getAttribute("report-key");
           if (reportKey) {
-            this._report(ReportType.EVENT, {
+            this.report(ReportType.EVENT, {
               tagName: target.nodeName,
               tagText: target.innerText,
               event,
@@ -69,21 +69,21 @@ export default class TrackingDemo {
 
     private initPV() {
       window.addEventListener("pushState", (e) => {
-        this._report(ReportType.PV, {
+        this.report(ReportType.PV, {
           type: RouteType.PUSH,
           referrer: document.referrer,
         });
       });
 
       window.addEventListener("replaceState", (e) => {
-        this._report(ReportType.PV, {
+        this.report(ReportType.PV, {
           type: RouteType.REPLACE,
           referrer: document.referrer,
         });
       });
 
       window.addEventListener("hashchange", () => {
-        this._report(ReportType.PV, {
+        this.report(ReportType.PV, {
           type: RouteType.HASH,
           referrer: document.referrer,
         });
@@ -97,7 +97,7 @@ export default class TrackingDemo {
         const time = new Date().getTime();
         self.dulation.value = time - self.dulation.startTime;
 
-        self._report(ReportType.DULATION, {
+        self.report(ReportType.DULATION, {
             ...self.dulation,
         });
 
@@ -135,10 +135,10 @@ export default class TrackingDemo {
 
     // 用户可主动上报
     reportTracker(data:any) {
-      this._report(ReportType.CUSTOM, data);
+      this.report(ReportType.CUSTOM, data);
     }
 
-    _getPageInfo(): PageInfo {
+    private getPageInfo(): PageInfo {
       const { width, height } = window.screen;
       const { userAgent } = navigator;
       return {
@@ -151,9 +151,9 @@ export default class TrackingDemo {
       };
     }
 
-    _report(type: ReportType, data:any) {
+    private report(type: ReportType, data:any) {
       const reportData: ReportData = {
-        ...this._getPageInfo(),
+        ...this.getPageInfo(),
         type,
         data,
         sdk: SDKVersion,
